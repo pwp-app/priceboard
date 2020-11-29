@@ -1,24 +1,7 @@
-# steamboard
+# PriceBoard
 
-## Project setup
-```
-npm install
-```
+A board displays games price in Steam Store.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## LICENSE
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+MIT

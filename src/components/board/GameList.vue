@@ -2,7 +2,7 @@
   <div class="content board-list">
     <div class="box box-info board-list-empty" v-if="games.length < 1">
       <span>您好像还没有添加游戏，快添加一款吧！</span>
-      <div class="btn-hoverfade" id="btn-empty-add">
+      <div class="btn-hoverfade" id="btn-empty-add" @click="handleAdd">
         点我添加
       </div>
     </div>
@@ -11,17 +11,15 @@
 
 <script>
 export default {
-  data() {
-    return {
-      games: [],
-    };
-  },
-  created() {
-    this.initGames();
+  props: {
+    games: {
+      type: Array,
+      default: () => [],
+    },
   },
   methods: {
-    initGames() {
-
+    handleAdd() {
+      this.$emit('add');
     },
   },
 };

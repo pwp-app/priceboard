@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import './styles/basic.less';
+import './plugins/common';
 import './plugins/fontawesome';
 
 Vue.config.productionTip = false;

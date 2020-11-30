@@ -5,10 +5,26 @@
       <span class="board-footer-spacer">|</span>
       <span>This site is not associate with Valve Corp.</span>
       <span class="board-footer-spacer">|</span>
-      <font-awesome-icon :icon="['fab', 'github']"/>
+      <font-awesome-icon
+        id="icon-github"
+        :icon="['fab', 'github']"
+        @click="openGitHub"
+        />
     </div>
   </div>
 </template>
+
+<script>
+const GITHUB_URL = 'https://github.com/pwp-app/priceboard';
+
+export default {
+  methods: {
+    openGitHub() {
+      window.open(GITHUB_URL);
+    },
+  },
+};
+</script>
 
 <style lang="less">
 @footer-height: 64px;
@@ -30,5 +46,10 @@
       margin: 0 12px;
     }
   }
+}
+
+#icon-github:hover {
+  cursor: pointer;
+  color: #fff;
 }
 </style>

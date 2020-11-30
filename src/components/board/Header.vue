@@ -17,7 +17,7 @@
 export default {
   methods: {
     handleAddClick() {
-
+      this.$emit('add');
     },
   },
 };
@@ -38,6 +38,7 @@ export default {
     max-width: 940px;
     margin: 0 auto;
     padding: 0 32px;
+    user-select: none;
     &-title {
       flex: 1;
       color: @color-text-white;

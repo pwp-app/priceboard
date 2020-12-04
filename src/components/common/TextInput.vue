@@ -68,7 +68,7 @@ export default {
     border: 1px solid #262627;
     box-shadow: 1px 1px 0px #39393a;
     color: #BFBFBF;
-    margin: 12px 0;
+    margin-top: 8px;
     outline: none;
     padding: 4px 6px;
     box-sizing: border-box;
@@ -76,6 +76,7 @@ export default {
 }
 
 .text-input-invalid {
+  margin-top: 8px;
   font-size: 14px;
   color: @color-text-red;
   user-select: none;

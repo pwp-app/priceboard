@@ -26,9 +26,25 @@
           invalid="请输入正确的商店链接"
           @submit="handleAddSubmit"
           />
+        <div class="dialog-add-failed" v-if="addSubmitFailed">
+          <span>无法获取游戏信息，请重试。</span>
+        </div>
       </div>
-      <div slot="footer" class="btn-hoverfade" id="btn-add-submit" @click="submitAdd">
+      <div
+        slot="footer"
+        class="btn-hoverfade"
+        id="btn-add-submit"
+        @click="submitAdd"
+        v-if="!addSubmiting"
+        >
         提交
+      </div>
+      <div
+        class="spin icon-spinner"
+        slot="footer"
+        v-else
+        >
+        <font-awesome-icon :icon="['fas', 'spinner']" />
       </div>
     </Dialog>
   </div>
@@ -39,7 +55,8 @@ import Header from '../components/board/Header.vue';
 import GameList from '../components/board/GameList.vue';
 import Footer from '../components/board/Footer.vue';
 
-const URL_TESTER = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&/=]*)/;
+const URL_TESTER = /^https:\/\/store.steampowered.com\/app\/\d+\/.*/;
+const URL_EXTRACTER = /^https:\/\/store.steampowered.com\/app\/(\d+)\//;
 
 export default {
   components: {
@@ -53,12 +70,17 @@ export default {
       // 添加游戏表单
       addDialogShow: false,
       storeURL: '',
+      addSubmiting: false,
+      addSubmitFailed: false,
     };
   },
   methods: {
     // 添加游戏表单
     handleAdd() {
+      this.storeURL = '';
       this.addDialogShow = true;
+      this.addSubmiting = false;
+      this.addSubmitFailed = false;
     },
     handleAddClose() {
       this.addDialogShow = false;
@@ -69,8 +91,24 @@ export default {
     submitAdd() {
       this.$refs.gameAddInput.submit();
     },
-    handleAddSubmit() {
-
+    async handleAddSubmit() {
+      // 尝试拉取数据
+      const appId = parseInt(URL_EXTRACTER.exec(this.storeURL)[1], 10);
+      this.addSubmiting = true;
+      try {
+        const ret = await this.axios.get(`${this.STORE_API}/appdetails?appids=${appId}`);
+        if (ret.status !== 200 || !ret.data) {
+          this.addSubmiting = false;
+          this.addSubmitFailed = true;
+          return;
+        }
+        console.log(ret.data);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Fetch game info error: ', err);
+        this.addSubmiting = false;
+        this.addSubmitFailed = true;
+      }
     },
   },
 };
@@ -86,6 +124,20 @@ export default {
     flex: 1;
     width: 100%;
     position: relative;
+  }
+}
+
+.dialog-add {
+  &-failed {
+    padding: 10px 16px;
+    border-radius: 3px;
+    border: 1px solid @color-text-red;
+    color: @color-text-red;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .icon-spinner {
+    font-size: 24px;
   }
 }
 </style>

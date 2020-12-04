@@ -92,7 +92,7 @@ export default {
     .dialog-footer {
       width: max-content;
       float: right;
-      margin-top: 8px;
+      margin-top: 12px;
     }
   }
   &-close {
